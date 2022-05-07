@@ -1,5 +1,10 @@
+from datetime import datetime
+
+import json
+
 from django.shortcuts import render
 from django.views.generic import TemplateView
+
 
 # Create your views here.
 
@@ -10,6 +15,24 @@ class MainPageView(TemplateView):
 
 class NewsPageView(TemplateView):
     template_name = 'mainapp/news.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        with open('news.json', 'r', encoding='utf-8') as file:
+            context["news_data"] = json.load(file)
+        context['range'] = range(5)
+        context['datetime_obj'] = datetime.now()
+    #   context["news_title"] = "Громкий новостной заголовок"
+    #   context["news_preview"] = "Предварительное описание, которое заинтересует каждого"
+        return context
+
+
+class NewsWithPaginatorViews(NewsPageView):
+
+    def get_context_data(self, page, **kwargs):
+        context = super().get_context_data(page=page, **kwargs)
+        context['page_num'] = page
+        return context
 
 
 class CoursesPageView(TemplateView):
