@@ -5,12 +5,12 @@
 <div class="row">
 
   <div class="col-lg-8">
-    {% for new in news_data %}
+    {% for news in object_list %}
     <div class="card my-2">
       <div class="card-body">
-        <h5 class="card-title">{{ new.title }}</h5>
+        <h5 class="card-title">{{ news.title }}</h5>
         <h6 class="card-subtitle mb-2 text-muted">{{ datetime_obj|date:'Y-m-d H-i-s' }}</h6>
-        <p class="card-text">{{ new.preview }}</p>
+        <p class="card-text">{{ news.preamble }}</p>
         <a href="#" class="card-link">Подробнее</a>
       </div>
     </div>
