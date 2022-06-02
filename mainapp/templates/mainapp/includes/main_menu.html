@@ -15,7 +15,7 @@
                         <a class="nav-link" href="{% url 'mainapp:news' %}">Новости</a>
                     </li>
                     <li class="nav-item {% if request.resolver_match.view_name == 'mainapp:courses_list' %}active{% endif %}">
-                        <a class="nav-link" href="{% url 'mainapp:courses_list' %}">Курсы</a>
+                        <a class="nav-link" href="{% url 'mainapp:courses' %}">Курсы</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="ddProfile" role="button" data-toggle="dropdown"
