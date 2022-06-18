@@ -130,7 +130,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 AUTH_USER_MODEL = 'authapp.User'
-LOGIN_REDIRECT_URL = ''
-LOGOUT_REDIRECT_URL = ''
+LOGIN_REDIRECT_URL = 'mainapp:index'
+LOGOUT_REDIRECT_URL = 'mainapp:index'
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'

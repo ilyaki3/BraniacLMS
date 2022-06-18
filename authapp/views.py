@@ -1,13 +1,13 @@
 from django.contrib import messages
+from django.contrib.auth.views import LoginView, LogoutView
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import TemplateView
 
 from authapp.models import User
 
 
-class LoginView(TemplateView):
+class CustomLoginView(LoginView):
     template_name = 'authapp/login.html'
 
 
@@ -48,9 +48,30 @@ class RegisterView(TemplateView):
             return HttpResponseRedirect(reverse('authapp:register'))
 
 
-class LogoutView(TemplateView):
+class CustomLogoutView(LogoutView):
     pass
 
 
 class EditView(TemplateView):
-    pass
+    template_name = 'authapp/edit.html'
+
+    extra_context = {
+        'title': 'Редактирование профиля'
+    }
+
+    def post(self, request, *args, **kwargs):
+        if request.POST.get('username'):
+            request.user.username = request.POST.get('username')
+        if request.POST.get('first_name'):
+            request.user.first_name = request.POST.get('first_name')
+        if request.POST.get('last_name'):
+            request.user.last_name = request.POST.get('last_name')
+        if request.POST.get('email'):
+            request.user.email = request.POST.get('email')
+        if request.POST.get('age'):
+            request.user.age = request.POST.get('age')
+        if request.POST.get('password'):
+            request.user.set_password = request.POST.get('password')
+
+        request.user.save()
+        return HttpResponseRedirect(reverse('authapp:edit'))
