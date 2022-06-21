@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 
 
@@ -88,3 +89,25 @@ class CourseTeacher(BaseModel):
     class Meta:
         verbose_name = "учитель"
         verbose_name_plural = "учителя"
+
+
+class CourseFeedback(BaseModel):
+    RATINGS = (
+        (5, '⭐⭐⭐⭐⭐'),
+        (4, '⭐⭐⭐⭐'),
+        (3, '⭐⭐⭐'),
+        (2, '⭐⭐'),
+        (1, '⭐')
+    )
+
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='Курс')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Пользователь')
+    rating = models.SmallIntegerField(choices=RATINGS, default=5, verbose_name='Рейтинг')
+    feedback = models.TextField(verbose_name='Отзыв', default='Без отзыва')
+
+    class Meta:
+        verbose_name = 'Отзыв'
+        verbose_name_plural = 'Отзывы'
+
+    def __str__(self):
+        return f'Отзыв на {self.course} от{self.user}'

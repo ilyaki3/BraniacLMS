@@ -1,11 +1,11 @@
 from django.contrib import admin
 
-from mainapp.models import Course, CourseTeacher, News, Lesson
+from mainapp.models import Course, CourseTeacher, News, Lesson, CourseFeedback
 
 admin.site.register(Course)
 admin.site.register(CourseTeacher)
 admin.site.register(Lesson)
-
+admin.site.register(CourseFeedback)
 
 @admin.register(News)
 class NewsAdmin(admin.ModelAdmin):

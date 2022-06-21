@@ -1,39 +1,57 @@
-from django.views.generic import TemplateView
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
+from django.template.loader import render_to_string
+from django.urls import reverse_lazy
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 
-import mainapp.models
-from mainapp.models import News
+from mainapp.forms import CourseFeedbackForm
+from mainapp.models import Lesson, CourseFeedback, CourseTeacher
+from mainapp.models import News, Course
 
 
+# Main Page
 class MainPageView(TemplateView):
     template_name = 'mainapp/index.html'
 
 
-class NewsPageView(TemplateView):
-    template_name = 'mainapp/news.html'
+# News
+class NewsListView(ListView):
+    model = News
+    paginate_by = 5
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['object_list'] = News.objects.all()[:5]
-        return context
-
-
-class NewsPageDetailViews(TemplateView):
-    template_name = 'mainapp/news_detail.html'
-
-    def get_context_data(self, pk=None, **kwargs):
-        context = super().get_context_data(pk=pk, **kwargs)
-        context['news_object'] = get_object_or_404(mainapp.models.News, pk=pk)
-        return context
+    def get_queryset(self):
+        return super().get_queryset().filter(deleted=False)
 
 
-class CoursesListView(TemplateView):
-    template_name = 'mainapp/courses_list.html'
+class NewsPageDetailViews(DetailView):
+    model = News
 
-    def get_context_data(self, **kwargs):
-        context = super(CoursesListView, self).get_context_data(**kwargs)
-        context['objects'] = mainapp.models.Course.objects.all()[:7]
-        return context
+
+class NewsCreateView(PermissionRequiredMixin, CreateView):
+    model = News
+    fields = '__all__'
+    success_url = reverse_lazy('mainapp:news')
+    permission_required = ('mainapp.add_news',)
+
+
+class NewsUpdateView(PermissionRequiredMixin, UpdateView):
+    model = News
+    fields = '__all__'
+    success_url = reverse_lazy('mainapp:news')
+    permission_required = ('mainapp.change_news',)
+
+
+class NewsDeleteView(PermissionRequiredMixin, DeleteView):
+    model = News
+    success_url = reverse_lazy('mainapp:news')
+    permission_required = ('mainapp.delete_news',)
+
+
+# Courses
+class CoursesListView(ListView):
+    template_name = 'mainapp/course_list.html'
+    model = Course
 
 
 class CoursesDetailView(TemplateView):
@@ -41,19 +59,39 @@ class CoursesDetailView(TemplateView):
 
     def get_context_data(self, pk=None, **kwargs):
         context = super(CoursesDetailView, self).get_context_data(**kwargs)
-        context['course_object'] = get_object_or_404(mainapp.models.Course, pk=pk)
-        context['lessons'] = mainapp.models.Lesson.objects.filter(course=context['course_object'])
-        context['teachers'] = mainapp.models.CourseTeacher.objects.filter(course=context['course_object'])
+        context['course_object'] = get_object_or_404(Course, pk=pk)
+        context['lessons'] = Lesson.objects.filter(course=context['course_object'])
+        context['teachers'] = CourseTeacher.objects.filter(course=context['course_object'])
+        context['feedback_list'] = CourseFeedback.objects.filter(course=context['course_object'])
+
+        if self.request.user.is_authenticated:
+            context['feedback_form'] = CourseFeedbackForm(course=context['course_object'], user=self.request.user)
+
         return context
 
 
+class CourseFeedbackCreateView(CreateView):
+    model = CourseFeedback
+    form_class = CourseFeedbackForm
+
+    def form_valid(self, form):
+        self.object = form.save()
+        rendered_template = render_to_string('mainapp/includes/feedback_card.html', context={'item': self.object})
+        return JsonResponse({'card': rendered_template})
+
+
+# Contacts
 class ContactsPageView(TemplateView):
     template_name = 'mainapp/contacts.html'
 
+
+# DocSite
 
 class DocSitePageView(TemplateView):
     template_name = 'mainapp/doc_site.html'
 
 
+# Login
+
 class LoginPageView(TemplateView):
-    template_name = 'mainapp/../authapp/templates/authapp/login.html'
+    template_name = 'authapp/login.html'
