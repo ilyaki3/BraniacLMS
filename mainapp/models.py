@@ -20,7 +20,7 @@ class NewsManager(models.Manager):
         pass
 
     def get_queryset(self):
-        return super().get_queryset().filter(deleted=False)
+        return super().get_queryset().filter()
 
 
 class News(BaseModel):

@@ -14,16 +14,16 @@
         <div class="row h-100">
             <div class="col-12">
                 {% if course_object.description_as_markdown %}
-                {{ course_object.description|markdownify }}
+                    {{ course_object.description }}
                 {% else %}
-                {{ course_object.description }}
+                    {{ course_object.description }}
                 {% endif %}
             </div>
             <div class="col-12 align-self-end">
                 <p>
                     <small>Преподаватели</small><br>
                     {% for item in teachers %}
-                    {{ item.name_second }} {{ item.name_first }}{% if forloop.last %}{% else %},{% endif %}
+                        {{ item.name_second }} {{ item.name_first }}{% if forloop.last %}{% else %},{% endif %}
                     {% endfor %}
                 </p>
             </div>
