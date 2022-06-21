@@ -8,6 +8,7 @@ charset-normalizer==2.0.12
 cryptography==37.0.2
 defusedxml==0.7.1
 Django==4.0.4
+django-crispy-forms==1.14.0
 django-markdownify==0.9.1
 idna==3.3
 importlib-metadata==4.11.4

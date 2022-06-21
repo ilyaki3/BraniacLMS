@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'mainapp',
     'authapp',
     'social_django',
+    'crispy_forms'
 ]
 
 MIDDLEWARE = [
@@ -57,7 +58,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            'mainapp/templates'
+            'mainapp/templates',
+            'templates'
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -145,3 +147,5 @@ AUTHENTICATION_BACKENDS = (
 
 SOCIAL_AUTH_GITHUB_KEY = 'f603dfae4aed57511d74'
 SOCIAL_AUTH_GITHUB_SECRET = '23ea021c338dec569d2931c518b83c4017e5d347'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
