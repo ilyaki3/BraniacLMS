@@ -37,6 +37,7 @@
                             {% endif %}
                             {%  if user.is_superuser %}
                                 <a class="dropdown-item" href="{% url 'admin:index' %}" target="_blank">Административный раздел</a>
+                                <a class="dropdown-item" href="{% url 'mainapp:logs_list' %}" target="_blank">Логи</a>
                             {% endif %}
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{% url 'authapp:logout' %}">Выход</a>

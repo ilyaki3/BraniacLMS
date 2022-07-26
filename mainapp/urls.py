@@ -1,5 +1,5 @@
 from django.urls import path
-
+from django.views.decorators.cache import cache_page
 from mainapp import views
 from mainapp.apps import MainappConfig
 
@@ -17,7 +17,7 @@ urlpatterns = [
     path('news/<int:pk>/detail/', views.NewsPageDetailViews.as_view(), name='news_detail'),
 
     # Courses
-    path('courses/', views.CoursesListView.as_view(), name='courses'),
+    path('courses/', cache_page(300)(views.CoursesListView.as_view()), name='courses'),
     path('courses/<int:pk>/detail/', views.CoursesDetailView.as_view(), name='courses_detail'),
     path('courses/feedback/', views.CourseFeedbackCreateView.as_view(), name='course_feedback'),
 
@@ -26,4 +26,7 @@ urlpatterns = [
     path('doc_site/', views.DocSitePageView.as_view(), name='doc_site'),
     path('login/', views.LoginPageView.as_view(), name='login'),
 
+    # Logs
+    path('logs/', views.LogView.as_view(), name='logs_list'),
+    path('logs/download/', views.LogDownloadView.as_view(), name='logs_download'),
 ]
