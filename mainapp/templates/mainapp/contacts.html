@@ -1,25 +1,36 @@
 {% extends 'mainapp/base.html' %}
-{% load email_to_link %}
+{% load email_to_link crispy_forms_tags%}
 
 
 {% block content %}
 
-        
+
 <p>
 <div class="jumbotron jumbotron-fluid">
   <div class="container">
     <h1 class="display-4">Наши контакты</h1>
     <p class="lead">Обязательно свяжитесь с нами! Ваш комфорт - наша забота.</p>
+      <div class="row">
+          <form method="post" class="form-group col-4">
+              {% csrf_token %}
+              <label>
+                  <input class="form-control" name="message_from"/>
+                  <textarea class="form-control" name="message-body"></textarea>
+                  <input type="submit" class="btn btn-primary" value="Отправить"/>
+              </label>
+
+          </form>
+      </div>
   </div>
 </div>
 </p>
 <p>
 <div class="row justify-content-around mt-n2">
-  
+
   <div class="col-sm-6 col-md-6 col-lg-4 pb-2">
     <div class="card h-100 shadow">
       <div class="card-body">
-        <div style="position:relative;overflow:hidden;"><a                 href="https://yandex.ru/maps/org/petropavlovskaya_krepost/146720535721/?utm_medium=mapframe&utm_source=maps"                 style="color:#eee;font-size:12px;position:absolute;top:0px;">Петропавловская крепость</a><a                 href="https://yandex.ru/maps/2/saint-petersburg/category/landmark_attraction/89683368508/?utm_medium=mapframe&utm_source=maps"                 style="color:#eee;font-size:12px;position:absolute;top:14px;">Достопримечательность в                 Санкт‑Петербурге</a><a                 href="https://yandex.ru/maps/2/saint-petersburg/category/museum/184105894/?utm_medium=mapframe&utm_source=maps"                 style="color:#eee;font-size:12px;position:absolute;top:28px;">Музей в Санкт‑Петербурге</a><iframe                 src="https://yandex.ru/map-widget/v1/-/CCUAZHcrhA" width="100%" height="300" frameborder="0"                 allowfullscreen="true" style="position:relative; border-radius: 4px;"></iframe>             </div>
+        <div style="position:relative;overflow:hidden;"><a href="https://yandex.ru/maps/org/petropavlovskaya_krepost/146720535721/?utm_medium=mapframe&utm_source=maps"                 style="color:#eee;font-size:12px;position:absolute;top:0px;">Петропавловская крепость</a><a                 href="https://yandex.ru/maps/2/saint-petersburg/category/landmark_attraction/89683368508/?utm_medium=mapframe&utm_source=maps"                 style="color:#eee;font-size:12px;position:absolute;top:14px;">Достопримечательность в                 Санкт‑Петербурге</a><a                 href="https://yandex.ru/maps/2/saint-petersburg/category/museum/184105894/?utm_medium=mapframe&utm_source=maps"                 style="color:#eee;font-size:12px;position:absolute;top:28px;">Музей в Санкт‑Петербурге</a><iframe                 src="https://yandex.ru/map-widget/v1/-/CCUAZHcrhA" width="100%" height="300" frameborder="0"                 allowfullscreen="true" style="position:relative; border-radius: 4px;"></iframe>             </div>
         <h5 class="card-title">Санкт‑Петербург</h5>
         <p class="card-text">
         <ul class="list-unstyled">
@@ -38,7 +49,7 @@
       </div>
     </div>
   </div>
-  
+
   <div class="col-sm-6 col-md-6 col-lg-4 pb-2">
     <div class="card h-100 shadow">
       <div class="card-body">
@@ -61,7 +72,7 @@
       </div>
     </div>
   </div>
-  
+
   <div class="col-sm-6 col-md-6 col-lg-4 pb-2">
     <div class="card h-100 shadow">
       <div class="card-body">
@@ -84,7 +95,7 @@
       </div>
     </div>
   </div>
-  
+
 </div>
 </p>
 
