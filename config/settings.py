@@ -51,6 +51,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -156,6 +157,8 @@ SOCIAL_AUTH_GITHUB_KEY = 'f603dfae4aed57511d74'
 SOCIAL_AUTH_GITHUB_SECRET = '23ea021c338dec569d2931c518b83c4017e5d347'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+LOCALE_PATHS = [BASE_DIR / 'locale']
 
 CACHES = {
     'default': {
