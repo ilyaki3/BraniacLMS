@@ -1,10 +1,11 @@
+from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 from django.db import models
 
 
 class BaseModel(models.Model):
-    created = models.DateTimeField(auto_now_add=True, verbose_name="Created", editable=False)
-    updated = models.DateTimeField(auto_now=True, verbose_name="Edited", editable=False)
+    created = models.DateTimeField(auto_now_add=True, verbose_name=_("Created"), editable=False)
+    updated = models.DateTimeField(auto_now=True, verbose_name=_("Edited"), editable=False)
     deleted = models.BooleanField(default=False)
 
     class Meta:
@@ -26,10 +27,10 @@ class NewsManager(models.Manager):
 
 class News(BaseModel):
     objects = NewsManager()
-    title = models.CharField(max_length=256, verbose_name="Title")
-    preamble = models.CharField(max_length=1024, verbose_name="Preamble")
-    body = models.TextField(blank=True, null=True, verbose_name="Body")
-    body_as_markdown = models.BooleanField(default=False, verbose_name="As markdown")
+    title = models.CharField(max_length=256, verbose_name=_("Title"))
+    preamble = models.CharField(max_length=1024, verbose_name=_("Preamble"))
+    body = models.TextField(blank=True, null=True, verbose_name=_("Body"))
+    body_as_markdown = models.BooleanField(default=False, verbose_name=_("As markdown"))
 
     def __str__(self) -> str:
         return f"{self.pk} | {self.title}"
@@ -47,11 +48,11 @@ class CourseManager(models.Manager):
 
 class Course(BaseModel):
     objects = CourseManager()
-    name = models.CharField(max_length=256, verbose_name="Name")
-    description = models.TextField(verbose_name="Description", blank=True, null=True)
-    description_as_markdown = models.BooleanField(default=False, verbose_name="As markdown")
-    cost = models.DecimalField(max_digits=8, decimal_places=2, verbose_name="Cost", default=0)
-    cover = models.CharField(max_length=25, default="no_image.svg", verbose_name="Cover")
+    name = models.CharField(max_length=256, verbose_name=_("Name"))
+    description = models.TextField(verbose_name=_("Description"), blank=True, null=True)
+    description_as_markdown = models.BooleanField(default=False, verbose_name=_("As markdown"))
+    cost = models.DecimalField(max_digits=8, decimal_places=2, verbose_name=_("Cost"), default=0)
+    cover = models.CharField(max_length=25, default="no_image.svg", verbose_name=_("Cover"))
 
     def __str__(self) -> str:
         return f"{self.pk} {self.name}"
@@ -63,10 +64,10 @@ class Course(BaseModel):
 
 class Lesson(BaseModel):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    num = models.PositiveIntegerField(verbose_name="Lesson number")
-    title = models.CharField(max_length=256, verbose_name="Title")
-    description = models.TextField(verbose_name="Description", blank=True, null=True)
-    description_as_markdown = models.BooleanField(default=False, verbose_name="As markdown")
+    num = models.PositiveIntegerField(verbose_name=_("Lesson number"))
+    title = models.CharField(max_length=256, verbose_name=_("Title"))
+    description = models.TextField(verbose_name=_("Description"), blank=True, null=True)
+    description_as_markdown = models.BooleanField(default=False, verbose_name=_("As markdown"))
 
     def __str__(self) -> str:
         return f"{self.course.name} | {self.num} | {self.title}"
@@ -79,9 +80,9 @@ class Lesson(BaseModel):
 
 class CourseTeacher(BaseModel):
     course = models.ManyToManyField(Course)
-    name_first = models.CharField(max_length=128, verbose_name="Name")
-    name_second = models.CharField(max_length=128, verbose_name="Surname")
-    day_birth = models.DateTimeField(verbose_name="Birth date")
+    name_first = models.CharField(max_length=128, verbose_name=_("Name"))
+    name_second = models.CharField(max_length=128, verbose_name=_("Surname"))
+    day_birth = models.DateTimeField(verbose_name=_("Birth date"))
 
     def __str__(self):
         return f"{self.pk} | {self.name_second} | {self.name_first}"
@@ -100,10 +101,10 @@ class CourseFeedback(BaseModel):
         (1, '⭐')
     )
 
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='Курс')
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Пользователь')
-    rating = models.SmallIntegerField(choices=RATINGS, default=5, verbose_name='Рейтинг')
-    feedback = models.TextField(verbose_name='Отзыв', default='Без отзыва')
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name=_('Курс'))
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name=_('Пользователь'))
+    rating = models.SmallIntegerField(choices=RATINGS, default=5, verbose_name=_('Рейтинг'))
+    feedback = models.TextField(verbose_name=_('Отзыв'), default=_('Без отзыва'))
 
     class Meta:
         verbose_name = 'Отзыв'
